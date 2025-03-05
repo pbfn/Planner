@@ -2,6 +2,7 @@ package com.pedrobruno.planner.ui.components.buttons
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -17,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pedrobruno.planner.ui.theme.Lime300
 import com.pedrobruno.planner.ui.theme.Lime950
-import com.pedrobruno.planner.ui.theme.interFontFamily
 
 @Composable
 fun PlannerButton(
@@ -34,7 +34,7 @@ fun PlannerButton(
             disabledContainerColor = Lime300.copy(alpha = 0.6f)
         ),
         onClick = onClick,
-        enabled = disable
+        enabled = !disable
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -43,7 +43,7 @@ fun PlannerButton(
             Text(
                 text = text,
                 style = TextStyle(
-                    fontFamily = interFontFamily,
+                    //fontFamily = interFontFamily,
                     fontWeight = FontWeight.Medium,
                     fontSize = 16.sp,
                     color = Lime950
@@ -57,6 +57,7 @@ fun PlannerButton(
 @Composable
 fun PlannerButtonPreview0() {
     PlannerButton(
+        modifier = Modifier.fillMaxWidth(),
         text = "Label",
         disable = false
     ) { }
@@ -66,6 +67,7 @@ fun PlannerButtonPreview0() {
 @Composable
 fun PlannerButtonPreview1() {
     PlannerButton(
+        modifier = Modifier.fillMaxWidth(),
         text = "Label",
         disable = true
     ) { }
