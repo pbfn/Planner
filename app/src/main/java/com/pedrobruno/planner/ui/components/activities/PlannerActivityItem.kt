@@ -1,5 +1,7 @@
 package com.pedrobruno.planner.ui.components.activities
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,16 +17,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pedrobruno.planner.R
 import com.pedrobruno.planner.data.model.ActivityItem
+import com.pedrobruno.planner.data.model.mock.mockedListActivities
 import com.pedrobruno.planner.ui.theme.Lime300
 import com.pedrobruno.planner.ui.theme.Zinc100
 import com.pedrobruno.planner.ui.theme.Zinc400
+import com.pedrobruno.planner.ui.theme.Zinc700
 import com.pedrobruno.planner.ui.theme.Zinc900
 
 @Composable
@@ -40,31 +43,12 @@ fun PlannerActivityItem(modifier: Modifier = Modifier, item: ActivityItem) {
 
     Card(
         modifier = modifier
-            .fillMaxWidth()
-            .shadow(
-                elevation = 0.dp,
-                spotColor = Color(0x1A000000),
-                ambientColor = Color(0x1A000000)
-            )
-            .shadow(
-                elevation = 2.dp,
-                spotColor = Color(0x1A000000),
-                ambientColor = Color(0x1A000000)
-            )
-            .shadow(
-                elevation = 4.dp,
-                spotColor = Color(0x1A000000),
-                ambientColor = Color(0x1A000000)
-            )
-            .shadow(
-                elevation = 8.dp,
-                spotColor = Color(0x1A000000),
-                ambientColor = Color(0x1A000000)
-            ),
+            .fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = Zinc900
         ),
+        border = BorderStroke(width = 1.dp, color = Zinc700),
     ) {
         Row(
             modifier = Modifier
@@ -85,10 +69,23 @@ fun PlannerActivityItem(modifier: Modifier = Modifier, item: ActivityItem) {
                 style = MaterialTheme.typography.bodyMedium.copy(color = Zinc100)
             )
             Spacer(Modifier.width(16.dp))
-            Text(
-                text = item.data,
-                style = MaterialTheme.typography.bodySmall.copy(color = Zinc400)
-            )
+
+            Column(horizontalAlignment = Alignment.End) {
+                Text(
+                    text = item.data,
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        color = Zinc400,
+                        textAlign = TextAlign.End
+                    )
+                )
+                Text(
+                    text = item.hour,
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        color = Zinc400,
+                        textAlign = TextAlign.End
+                    )
+                )
+            }
         }
     }
 }
@@ -97,11 +94,7 @@ fun PlannerActivityItem(modifier: Modifier = Modifier, item: ActivityItem) {
 @Composable
 private fun PlannerActivityItem0() {
     PlannerActivityItem(
-        item = ActivityItem(
-            description = "Text",
-            isDone = false,
-            data = "sábado, dia 18 às 08:00h"
-        )
+        item = mockedListActivities.first()
     )
 }
 
@@ -109,10 +102,6 @@ private fun PlannerActivityItem0() {
 @Composable
 private fun PlannerActivityItem1() {
     PlannerActivityItem(
-        item = ActivityItem(
-            description = "Text",
-            isDone = true,
-            data = "sábado, dia 18 às 08:00h"
-        )
+        item = mockedListActivities.last()
     )
 }

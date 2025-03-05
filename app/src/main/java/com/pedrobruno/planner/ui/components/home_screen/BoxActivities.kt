@@ -1,6 +1,5 @@
 package com.pedrobruno.planner.ui.components.home_screen
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -44,15 +43,6 @@ fun BoxActivities(
                 PlannerActivityItem(item = activity)
             }
         }
-
-//        Column(
-//            modifier = Modifier.fillMaxWidth(),
-//            verticalArrangement = Arrangement.spacedBy(12.dp)
-//        ) {
-//            activities.map { activity ->
-//                PlannerActivityItem(item = activity)
-//            }
-//        }
     }
 }
 

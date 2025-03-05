@@ -6,21 +6,25 @@ val mockedListActivities = listOf(
     ActivityItem(
         description = "Academia em grupo",
         isDone = true,
-        data = "sábado, dia 18 às 08:00h"
+        data = "sab, 18",
+        hour = "08:00"
     ),
     ActivityItem(
         description = "Almoço",
         isDone = true,
-        data = "sábado, dia 18 às 12:00h"
+        data = "sab, 18",
+        hour = "12:00"
     ),
     ActivityItem(
         description = "Gaming session",
         isDone = true,
-        data = "domingo, dia 19 às 18:00h"
+        data = "dom, 19",
+        hour = "18:00"
     ),
     ActivityItem(
         description = "Jantar",
-        isDone = true,
-        data = "segunda, dia 20 às 21:00h"
+        isDone = false,
+        data = "seg, 20",
+        hour = "21:00"
     ),
 )
