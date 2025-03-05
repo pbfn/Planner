@@ -20,9 +20,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pedrobruno.planner.R
+import com.pedrobruno.planner.data.model.User
+import com.pedrobruno.planner.data.model.mock.mockedUser
 
 @Composable
-fun TopDataUser(modifier: Modifier = Modifier) {
+fun TopDataUser(modifier: Modifier = Modifier, user: User) {
     Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -40,7 +42,7 @@ fun TopDataUser(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.width(24.dp))
         Text(text = "Olá, ", style = MaterialTheme.typography.bodyMedium.copy(Color(0xFFE1E1E6)))
         Text(
-            text = "Pedro Bruno!", style = MaterialTheme.typography.bodyMedium.copy(
+            text = "${user.name}!", style = MaterialTheme.typography.bodyMedium.copy(
                 color = Color(0xFFE1E1E6),
                 fontWeight = FontWeight.SemiBold
             )
@@ -51,5 +53,7 @@ fun TopDataUser(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun TopDataUserPreview() {
-    TopDataUser()
+    TopDataUser(
+        user = mockedUser
+    )
 }

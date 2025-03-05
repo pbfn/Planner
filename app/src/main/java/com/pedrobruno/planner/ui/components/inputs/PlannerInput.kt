@@ -31,6 +31,7 @@ fun PlannerInput(
     @DrawableRes leadingIcon: Int,
     isPassword: Boolean,
     showPassword: Boolean = false,
+    singleLine: Boolean = true,
     onClickShowPassword: () -> Unit = {},
     onValueChange: (String) -> Unit,
 ) {
@@ -67,6 +68,7 @@ fun PlannerInput(
             focusedTextColor = Zinc100,
             unfocusedTextColor = Zinc100
         ),
+        singleLine = singleLine,
         trailingIcon = {
             if (isPassword)
                 IconButton(

@@ -25,7 +25,7 @@ fun BoxAddNewActivities(
     onSaveClick: () -> Unit
 ) {
 
-    val buttonIsEnable = data.isEmpty() && activity.isEmpty() && hour.isEmpty()
+    val buttonIsEnable =listOf(data,activity,hour).all { it.isNotEmpty() }
 
     Column(
         modifier = modifier,
@@ -70,7 +70,7 @@ fun BoxAddNewActivities(
         PlannerButton(
             modifier = Modifier.fillMaxWidth(),
             text = "Salvar atividade",
-            disable = buttonIsEnable,
+            disable = !buttonIsEnable,
             onClick = {
                 onSaveClick()
             }
