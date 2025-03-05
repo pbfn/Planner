@@ -21,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pedrobruno.planner.R
+import com.pedrobruno.planner.data.model.ActivityItem
 import com.pedrobruno.planner.ui.theme.Lime300
 import com.pedrobruno.planner.ui.theme.Zinc100
 import com.pedrobruno.planner.ui.theme.Zinc400
@@ -115,9 +116,3 @@ private fun PlannerActivityItem1() {
         )
     )
 }
-
-data class ActivityItem(
-    val description: String,
-    val isDone: Boolean,
-    val data: String
-)

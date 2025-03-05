@@ -31,7 +31,7 @@ fun PlannerInput(
     @DrawableRes leadingIcon: Int,
     isPassword: Boolean,
     showPassword: Boolean = false,
-    onClickShowPassword: () -> Unit,
+    onClickShowPassword: () -> Unit = {},
     onValueChange: (String) -> Unit,
 ) {
     val iconPassword = if (showPassword)

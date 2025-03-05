@@ -9,14 +9,16 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.pedrobruno.planner.ui.navigation.Home
 import com.pedrobruno.planner.ui.navigation.Splash
+import com.pedrobruno.planner.ui.screen.home.HomeScreen
 import com.pedrobruno.planner.ui.screen.splash.SplashScreen
 import com.pedrobruno.planner.ui.theme.PlannerTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        //enableEdgeToEdge()
         setContent {
             PlannerTheme {
                 val navController = rememberNavController()
@@ -28,7 +30,15 @@ class MainActivity : ComponentActivity() {
                     composable<Splash> {
                         SplashScreen(
                             modifier = Modifier.fillMaxSize(),
-                            onNavigateToHome = {}
+                            onNavigateToHome = {
+                                navController.navigate(Home)
+                            }
+                        )
+                    }
+
+                    composable<Home> {
+                        HomeScreen(
+                            modifier = Modifier.fillMaxSize()
                         )
                     }
                 }
