@@ -6,6 +6,7 @@ import com.pedrobruno.planner.data.model.ActivityItem
 import com.pedrobruno.planner.data.model.User
 import com.pedrobruno.planner.data.model.mock.mockedListActivities
 import com.pedrobruno.planner.data.model.mock.mockedUser
+import com.pedrobruno.planner.util.converters.data.convertMillisToDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,7 +27,10 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         when (event) {
             HomeUiEvent.OnLoadUser -> onLoadUser()
             HomeUiEvent.OnLoadActivities -> onLoadActivities()
+            HomeUiEvent.OnOpenDatePicker -> onOpenDatePicker()
+            HomeUiEvent.OnCloseDatePicker -> onCloseDatePicker()
             is HomeUiEvent.OnActivityChange -> onActivityChange(event.activity)
+            is HomeUiEvent.OnSelectedDate -> onSelectedDateFromDatePicker(event.date)
         }
     }
 
@@ -67,6 +71,40 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                 )
             }
         }
+    }
+
+    private fun onOpenDatePicker() {
+        viewModelScope.launch {
+            _uiState.update { currentUiState ->
+                currentUiState.copy(
+                    showDatePicker = true
+                )
+            }
+        }
+    }
+
+    private fun onCloseDatePicker() {
+        viewModelScope.launch {
+            _uiState.update { currentUiState ->
+                currentUiState.copy(
+                    showDatePicker = false
+                )
+            }
+        }
+    }
+
+    private fun onSelectedDateFromDatePicker(date: Long?) {
+        viewModelScope.launch {
+            _uiState.update { currentUiState ->
+                currentUiState.copy(
+                    data = getConvertedDate(date)
+                )
+            }
+        }
+    }
+
+    private fun getConvertedDate(date: Long?): String {
+        return date?.let { convertMillisToDate(it) } ?: ""
     }
 
 }

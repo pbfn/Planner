@@ -1,5 +1,8 @@
 package com.pedrobruno.planner.ui.components.home_screen
 
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -7,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pedrobruno.planner.R
@@ -20,7 +25,7 @@ fun BoxAddNewActivities(
     data: String,
     hour: String,
     onActivityChanged: (String) -> Unit,
-    onDataChanged: (String) -> Unit,
+    onClickData: () -> Unit,
     onHourChange: (String) -> Unit,
     onSaveClick: () -> Unit
 ) {
@@ -44,19 +49,28 @@ fun BoxAddNewActivities(
         )
 
         PlannerInput(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
+                .pointerInput(data){
+                    awaitEachGesture {
+                        awaitFirstDown(pass = PointerEventPass.Initial)
+                        val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
+                        if (upEvent != null) {
+                            onClickData()
+                        }
+                    }
+                },
             value = data,
+            readOnly = true,
             placeholder = "Qual a data?",
             leadingIcon = R.drawable.calendar,
             isPassword = false,
-            onValueChange = { newValue ->
-                onDataChanged(newValue)
-            }
+            onValueChange = {}
         )
 
         PlannerInput(
             modifier = Modifier.fillMaxWidth(),
             value = hour,
+            readOnly = true,
             placeholder = "Qual a hora?",
             leadingIcon = R.drawable.clock,
             isPassword = false,
@@ -86,7 +100,7 @@ private fun BoxAddNewActivitiesPreview0() {
         data = "",
         hour = "",
         onActivityChanged = {},
-        onDataChanged = {},
+        onClickData = {},
         onHourChange = {},
         onSaveClick = {}
     )
@@ -100,7 +114,7 @@ private fun BoxAddNewActivitiesPreview1() {
         data = "20 de agosto",
         hour = "08:00",
         onActivityChanged = {},
-        onDataChanged = {},
+        onClickData = {},
         onHourChange = {},
         onSaveClick = {}
     )

@@ -32,6 +32,7 @@ fun PlannerInput(
     isPassword: Boolean,
     showPassword: Boolean = false,
     singleLine: Boolean = true,
+    readOnly: Boolean = false,
     onClickShowPassword: () -> Unit = {},
     onValueChange: (String) -> Unit,
 ) {
@@ -69,6 +70,7 @@ fun PlannerInput(
             unfocusedTextColor = Zinc100
         ),
         singleLine = singleLine,
+        readOnly = readOnly,
         trailingIcon = {
             if (isPassword)
                 IconButton(

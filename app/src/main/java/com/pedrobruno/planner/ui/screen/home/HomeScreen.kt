@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -18,10 +19,12 @@ import com.pedrobruno.planner.R
 import com.pedrobruno.planner.data.model.mock.mockedListActivities
 import com.pedrobruno.planner.ui.components.home_screen.BoxActivities
 import com.pedrobruno.planner.ui.components.home_screen.BoxAddNewActivities
+import com.pedrobruno.planner.ui.components.home_screen.PlannerDatePicker
 import com.pedrobruno.planner.ui.components.home_screen.TopDataUser
 import com.pedrobruno.planner.ui.screen.home.HomeUiEvent.*
 import com.pedrobruno.planner.ui.theme.Zinc950
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -60,7 +63,9 @@ fun HomeScreen(
                 onActivityChanged = { newActivityValue ->
                     onEvent(OnActivityChange(newActivityValue))
                 },
-                onDataChanged = {},
+                onClickData = {
+                    onEvent(OnOpenDatePicker)
+                },
                 onHourChange = {},
                 onSaveClick = {}
             )
@@ -71,6 +76,16 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth(),
                 activities = state.listActivities
+            )
+        }
+        if (state.showDatePicker) {
+            PlannerDatePicker(
+                onDateSelected = { date ->
+                    onEvent(OnSelectedDate(date))
+                },
+                onDismiss = {
+                    onEvent(OnCloseDatePicker)
+                }
             )
         }
     }
