@@ -26,11 +26,11 @@ fun BoxAddNewActivities(
     hour: String,
     onActivityChanged: (String) -> Unit,
     onClickData: () -> Unit,
-    onHourChange: (String) -> Unit,
+    onClickHour: () -> Unit,
     onSaveClick: () -> Unit
 ) {
 
-    val buttonIsEnable =listOf(data,activity,hour).all { it.isNotEmpty() }
+    val buttonIsEnable = listOf(data, activity, hour).all { it.isNotEmpty() }
 
     Column(
         modifier = modifier,
@@ -49,8 +49,9 @@ fun BoxAddNewActivities(
         )
 
         PlannerInput(
-            modifier = Modifier.fillMaxWidth()
-                .pointerInput(data){
+            modifier = Modifier
+                .fillMaxWidth()
+                .pointerInput(data) {
                     awaitEachGesture {
                         awaitFirstDown(pass = PointerEventPass.Initial)
                         val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
@@ -68,14 +69,24 @@ fun BoxAddNewActivities(
         )
 
         PlannerInput(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .pointerInput(data) {
+                    awaitEachGesture {
+                        awaitFirstDown(pass = PointerEventPass.Initial)
+                        val upEvent = waitForUpOrCancellation(pass = PointerEventPass.Initial)
+                        if (upEvent != null) {
+                            onClickHour()
+                        }
+                    }
+                },
             value = hour,
             readOnly = true,
             placeholder = "Qual a hora?",
             leadingIcon = R.drawable.clock,
             isPassword = false,
-            onValueChange = { newValue ->
-                onHourChange(newValue)
+            onValueChange = {
+
             }
         )
 
@@ -101,7 +112,7 @@ private fun BoxAddNewActivitiesPreview0() {
         hour = "",
         onActivityChanged = {},
         onClickData = {},
-        onHourChange = {},
+        onClickHour = {},
         onSaveClick = {}
     )
 }
@@ -115,7 +126,7 @@ private fun BoxAddNewActivitiesPreview1() {
         hour = "08:00",
         onActivityChanged = {},
         onClickData = {},
-        onHourChange = {},
+        onClickHour = {},
         onSaveClick = {}
     )
 }

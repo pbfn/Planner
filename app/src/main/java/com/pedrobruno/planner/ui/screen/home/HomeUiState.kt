@@ -10,5 +10,6 @@ data class HomeUiState(
     val data: String = "",
     val hour: String = "",
     val showDatePicker: Boolean = false,
+    val showTimePicker: Boolean = false,
     val listActivities: List<ActivityItem> = emptyList()
 )

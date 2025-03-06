@@ -29,8 +29,11 @@ class HomeViewModel @Inject constructor() : ViewModel() {
             HomeUiEvent.OnLoadActivities -> onLoadActivities()
             HomeUiEvent.OnOpenDatePicker -> onOpenDatePicker()
             HomeUiEvent.OnCloseDatePicker -> onCloseDatePicker()
+            HomeUiEvent.OnOpenTimePicker -> onOpenTimePicker()
+            HomeUiEvent.OnCloseTimePicker -> onCloseTimePicker()
             is HomeUiEvent.OnActivityChange -> onActivityChange(event.activity)
             is HomeUiEvent.OnSelectedDate -> onSelectedDateFromDatePicker(event.date)
+            is HomeUiEvent.OnSelectedHour -> onSelectedHourFromTimePicker(event.hour)
         }
     }
 
@@ -105,6 +108,36 @@ class HomeViewModel @Inject constructor() : ViewModel() {
 
     private fun getConvertedDate(date: Long?): String {
         return date?.let { convertMillisToDate(it) } ?: ""
+    }
+
+    private fun onOpenTimePicker() {
+        viewModelScope.launch {
+            _uiState.update { currentUiState ->
+                currentUiState.copy(
+                    showTimePicker = true
+                )
+            }
+        }
+    }
+
+    private fun onCloseTimePicker() {
+        viewModelScope.launch {
+            _uiState.update { currentUiState ->
+                currentUiState.copy(
+                    showTimePicker = false
+                )
+            }
+        }
+    }
+
+    private fun onSelectedHourFromTimePicker(hour: String) {
+        viewModelScope.launch {
+            _uiState.update { currentUiState ->
+                currentUiState.copy(
+                    hour = hour
+                )
+            }
+        }
     }
 
 }

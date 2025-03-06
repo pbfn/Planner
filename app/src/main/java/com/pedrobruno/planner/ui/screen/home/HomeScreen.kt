@@ -20,6 +20,7 @@ import com.pedrobruno.planner.data.model.mock.mockedListActivities
 import com.pedrobruno.planner.ui.components.home_screen.BoxActivities
 import com.pedrobruno.planner.ui.components.home_screen.BoxAddNewActivities
 import com.pedrobruno.planner.ui.components.home_screen.PlannerDatePicker
+import com.pedrobruno.planner.ui.components.home_screen.PlannerTimePicker
 import com.pedrobruno.planner.ui.components.home_screen.TopDataUser
 import com.pedrobruno.planner.ui.screen.home.HomeUiEvent.*
 import com.pedrobruno.planner.ui.theme.Zinc950
@@ -66,7 +67,9 @@ fun HomeScreen(
                 onClickData = {
                     onEvent(OnOpenDatePicker)
                 },
-                onHourChange = {},
+                onClickHour = {
+                    onEvent(OnOpenTimePicker)
+                },
                 onSaveClick = {}
             )
 
@@ -85,6 +88,16 @@ fun HomeScreen(
                 },
                 onDismiss = {
                     onEvent(OnCloseDatePicker)
+                }
+            )
+        }
+        if (state.showTimePicker) {
+            PlannerTimePicker(
+                onDateSelected = { hour ->
+                    onEvent(OnSelectedHour(hour))
+                },
+                onDismiss = {
+                    onEvent(OnCloseTimePicker)
                 }
             )
         }
