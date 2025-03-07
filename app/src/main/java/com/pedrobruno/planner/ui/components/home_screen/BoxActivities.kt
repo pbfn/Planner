@@ -22,7 +22,8 @@ import com.pedrobruno.planner.ui.theme.Zinc50
 @Composable
 fun BoxActivities(
     modifier: Modifier = Modifier,
-    activities: List<ActivityItem>
+    activities: List<ActivityItem>,
+    onClickDoneItem: (ActivityItem) -> Unit
 ) {
     Column(modifier = modifier) {
         Text(
@@ -35,12 +36,19 @@ fun BoxActivities(
         )
         Spacer(modifier = Modifier.height(24.dp))
 
-        LazyColumn(Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        LazyColumn(
+            Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
             items(
                 activities
             ) { activity ->
-                PlannerActivityItem(item = activity)
+                PlannerActivityItem(
+                    item = activity,
+                    onClickDone = {
+                        onClickDoneItem(activity)
+                    }
+                )
             }
         }
     }
@@ -50,7 +58,8 @@ fun BoxActivities(
 @Composable
 private fun BoxActivitiesPreview() {
     BoxActivities(
-        activities = mockedListActivities
+        activities = mockedListActivities,
+        onClickDoneItem = {}
     )
 }
 

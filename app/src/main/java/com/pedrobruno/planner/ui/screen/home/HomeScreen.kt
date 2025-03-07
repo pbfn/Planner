@@ -80,7 +80,10 @@ fun HomeScreen(
             BoxActivities(
                 modifier = Modifier
                     .fillMaxWidth(),
-                activities = state.listActivities
+                activities = state.listActivities,
+                onClickDoneItem ={ item->
+                    onEvent(OnClickDoneItem(item))
+                }
             )
         }
         if (state.showDatePicker) {

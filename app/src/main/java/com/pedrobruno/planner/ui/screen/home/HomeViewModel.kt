@@ -40,6 +40,7 @@ class HomeViewModel @Inject constructor(
             is HomeUiEvent.OnActivityChange -> onActivityChange(event.activity)
             is HomeUiEvent.OnSelectedDate -> onSelectedDateFromDatePicker(event.date)
             is HomeUiEvent.OnSelectedHour -> onSelectedHourFromTimePicker(event.hour)
+            is HomeUiEvent.OnClickDoneItem -> onDoneItem(event.itemActivity)
         }
     }
 
@@ -179,6 +180,14 @@ class HomeViewModel @Inject constructor(
                         listActivities = lista
                     )
                 }
+            }
+        }
+    }
+
+    private fun onDoneItem(item: ActivityItem) {
+        viewModelScope.launch{
+            withContext(Dispatchers.IO){
+                activityRepository.doneItem(item.id)
             }
         }
     }

@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,7 +32,11 @@ import com.pedrobruno.planner.ui.theme.Zinc700
 import com.pedrobruno.planner.ui.theme.Zinc900
 
 @Composable
-fun PlannerActivityItem(modifier: Modifier = Modifier, item: ActivityItem) {
+fun PlannerActivityItem(
+    modifier: Modifier = Modifier,
+    item: ActivityItem,
+    onClickDone: () -> Unit
+) {
 
     val icon = if (item.isDone)
         R.drawable.circle_check
@@ -56,12 +61,20 @@ fun PlannerActivityItem(modifier: Modifier = Modifier, item: ActivityItem) {
                 .padding(horizontal = 16.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
+            IconButton(
                 modifier = Modifier.size(20.dp),
-                painter = painterResource(icon),
-                tint = tintIcon,
-                contentDescription = "icon_isDone"
-            )
+                enabled = !item.isDone,
+                onClick = {
+                    onClickDone()
+                }
+            ) {
+                Icon(
+                    modifier = Modifier.size(20.dp),
+                    painter = painterResource(icon),
+                    tint = tintIcon,
+                    contentDescription = "icon_isDone"
+                )
+            }
             Spacer(Modifier.width(16.dp))
             Text(
                 modifier = Modifier.weight(1f),
@@ -94,7 +107,8 @@ fun PlannerActivityItem(modifier: Modifier = Modifier, item: ActivityItem) {
 @Composable
 private fun PlannerActivityItem0() {
     PlannerActivityItem(
-        item = mockedListActivities.first()
+        item = mockedListActivities.first(),
+        onClickDone = {}
     )
 }
 
@@ -102,6 +116,7 @@ private fun PlannerActivityItem0() {
 @Composable
 private fun PlannerActivityItem1() {
     PlannerActivityItem(
-        item = mockedListActivities.last()
+        item = mockedListActivities.last(),
+        onClickDone = {}
     )
 }

@@ -10,6 +10,7 @@ import com.pedrobruno.planner.util.converters.data.formatarHora
 import com.pedrobruno.planner.util.converters.data.gerarDate
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -56,5 +57,10 @@ class ActivityRepository @Inject constructor(
                 )
             }
         }
+    }
+
+    fun doneItem(id: Int) {
+        val dateDone = Date().time
+        activityDao.doneItem(id = id, dateDone = dateDone)
     }
 }

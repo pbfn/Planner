@@ -1,5 +1,7 @@
 package com.pedrobruno.planner.ui.screen.home
 
+import com.pedrobruno.planner.data.model.ActivityItem
+
 sealed class HomeUiEvent {
     data object OnLoadUser : HomeUiEvent()
     data object OnLoadActivities : HomeUiEvent()
@@ -12,4 +14,5 @@ sealed class HomeUiEvent {
     data class OnActivityChange(val activity: String) : HomeUiEvent()
     data class OnSelectedDate(val date: Long?) : HomeUiEvent()
     data class OnSelectedHour(val hour: String) : HomeUiEvent()
+    data class OnClickDoneItem(val itemActivity: ActivityItem) : HomeUiEvent()
 }
