@@ -3,12 +3,18 @@ package com.pedrobruno.planner.data.database.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
+import androidx.room.RawQuery
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.pedrobruno.planner.data.database.model.Activity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ActivityDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertActivity(activity: Activity): Long
+
+    @RawQuery(observedEntities = [Activity::class])
+    fun getActivities(query: SupportSQLiteQuery): Flow<List<Activity>>
 
 }

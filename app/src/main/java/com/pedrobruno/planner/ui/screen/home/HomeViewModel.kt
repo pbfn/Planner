@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pedrobruno.planner.data.model.ActivityItem
 import com.pedrobruno.planner.data.model.User
-import com.pedrobruno.planner.data.model.mock.mockedListActivities
 import com.pedrobruno.planner.data.model.mock.mockedUser
 import com.pedrobruno.planner.repositories.ActivityRepository
 import com.pedrobruno.planner.util.converters.data.convertMillisToDate
@@ -13,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -44,18 +44,11 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onLoadActivities() {
-        viewModelScope.launch {
-            _uiState.update { currentUiState ->
-                currentUiState.copy(
-                    listActivities = loadActivitiesFromRepository()
-                )
-            }
-        }
+        loadActivitiesFromRepository()
     }
 
-    private fun loadActivitiesFromRepository(): List<ActivityItem> {
-        //FUTURAMENTE BUSCAR DO BANCO
-        return mockedListActivities
+    private fun loadActivitiesFromRepository() {
+        getActivities()
     }
 
     private fun onLoadUser() {
@@ -178,4 +171,15 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun getActivities() {
+        viewModelScope.launch {
+            activityRepository.getActivities().collectLatest { lista ->
+                _uiState.update { currentUiState ->
+                    currentUiState.copy(
+                        listActivities = lista
+                    )
+                }
+            }
+        }
+    }
 }
