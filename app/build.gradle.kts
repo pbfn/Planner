@@ -44,6 +44,9 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
+    }
 }
 
 dependencies {
@@ -69,9 +72,13 @@ dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     // For AppWidgets support
-    implementation("androidx.glance:glance-appwidget:1.1.0")
+    implementation(libs.androidx.glance.appwidget)
     // For interop APIs with Material 3
-    implementation("androidx.glance:glance-material3:1.1.0")
+    implementation(libs.androidx.glance.material3)
+
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
