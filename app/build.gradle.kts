@@ -68,6 +68,11 @@ dependencies {
 
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
+    // For AppWidgets support
+    implementation("androidx.glance:glance-appwidget:1.1.0")
+    // For interop APIs with Material 3
+    implementation("androidx.glance:glance-material3:1.1.0")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
