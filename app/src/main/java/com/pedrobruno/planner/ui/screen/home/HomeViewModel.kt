@@ -6,17 +6,22 @@ import com.pedrobruno.planner.data.model.ActivityItem
 import com.pedrobruno.planner.data.model.User
 import com.pedrobruno.planner.data.model.mock.mockedListActivities
 import com.pedrobruno.planner.data.model.mock.mockedUser
+import com.pedrobruno.planner.repositories.ActivityRepository
 import com.pedrobruno.planner.util.converters.data.convertMillisToDate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor() : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val activityRepository: ActivityRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(
         HomeUiState()
@@ -31,6 +36,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
             HomeUiEvent.OnCloseDatePicker -> onCloseDatePicker()
             HomeUiEvent.OnOpenTimePicker -> onOpenTimePicker()
             HomeUiEvent.OnCloseTimePicker -> onCloseTimePicker()
+            HomeUiEvent.OnClickSaveActivity -> onClickSaveActivity()
             is HomeUiEvent.OnActivityChange -> onActivityChange(event.activity)
             is HomeUiEvent.OnSelectedDate -> onSelectedDateFromDatePicker(event.date)
             is HomeUiEvent.OnSelectedHour -> onSelectedHourFromTimePicker(event.hour)
@@ -135,6 +141,38 @@ class HomeViewModel @Inject constructor() : ViewModel() {
             _uiState.update { currentUiState ->
                 currentUiState.copy(
                     hour = hour
+                )
+            }
+        }
+    }
+
+    private fun onClickSaveActivity() {
+        val activityItem = ActivityItem(
+            description = uiState.value.activity,
+            isDone = false,
+            data = uiState.value.data,
+            hour = uiState.value.hour
+        )
+        addActivity(activityItem)
+    }
+
+    private fun addActivity(activityItem: ActivityItem) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val retorno = activityRepository.addActivity(activityItem)
+                if (retorno)
+                    clearFields()
+            }
+        }
+    }
+
+    private fun clearFields() {
+        viewModelScope.launch {
+            _uiState.update { currentUiState ->
+                currentUiState.copy(
+                    hour = "",
+                    activity = "",
+                    data = ""
                 )
             }
         }

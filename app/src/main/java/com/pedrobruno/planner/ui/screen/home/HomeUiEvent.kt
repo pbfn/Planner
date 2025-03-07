@@ -7,6 +7,7 @@ sealed class HomeUiEvent {
     data object OnCloseDatePicker : HomeUiEvent()
     data object OnOpenTimePicker : HomeUiEvent()
     data object OnCloseTimePicker : HomeUiEvent()
+    data object OnClickSaveActivity : HomeUiEvent()
 
     data class OnActivityChange(val activity: String) : HomeUiEvent()
     data class OnSelectedDate(val date: Long?) : HomeUiEvent()

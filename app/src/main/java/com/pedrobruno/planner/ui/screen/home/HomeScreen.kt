@@ -70,7 +70,9 @@ fun HomeScreen(
                 onClickHour = {
                     onEvent(OnOpenTimePicker)
                 },
-                onSaveClick = {}
+                onSaveClick = {
+                    onEvent(OnClickSaveActivity)
+                }
             )
 
             Spacer(modifier = Modifier.height(24.dp))

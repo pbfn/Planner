@@ -9,6 +9,6 @@ import com.pedrobruno.planner.data.database.model.Activity
 interface ActivityDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertActivity(activity: Activity)
+    suspend fun insertActivity(activity: Activity): Long
 
 }

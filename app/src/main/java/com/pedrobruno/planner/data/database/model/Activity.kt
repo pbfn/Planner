@@ -9,7 +9,7 @@ data class Activity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val description: String,
-    val isDone: String,
+    val isDone: Boolean,
     val date: Date,
     val dateDone: Date? = null
 )
