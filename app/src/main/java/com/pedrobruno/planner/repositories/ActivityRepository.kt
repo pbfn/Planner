@@ -9,11 +9,13 @@ import com.pedrobruno.planner.data.model.ActivityItem
 import com.pedrobruno.planner.util.converters.data.formatarData
 import com.pedrobruno.planner.util.converters.data.formatarHora
 import com.pedrobruno.planner.util.converters.data.gerarDate
+import com.pedrobruno.planner.workmanager.cancelWorkerNotification
 import com.pedrobruno.planner.workmanager.scheduleNotificationActivity
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.Date
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -29,7 +31,7 @@ class ActivityRepository @Inject constructor(
         try {
             val date = gerarDate(activityItem.data, activityItem.hour)
             if (date != null) {
-                scheduleNotificationActivity(
+                val workRequestNotificationID = scheduleNotificationActivity(
                     activity = activityItem.description,
                     date = date,
                     context = context
@@ -37,7 +39,8 @@ class ActivityRepository @Inject constructor(
                 val activity = Activity(
                     description = activityItem.description,
                     isDone = activityItem.isDone,
-                    date = date
+                    date = date,
+                    workRequestNotificationID = workRequestNotificationID
                 )
                 val idInserido = activityDao.insertActivity(
                     activity = activity
@@ -71,5 +74,12 @@ class ActivityRepository @Inject constructor(
     fun doneItem(id: Int) {
         val dateDone = Date().time
         activityDao.doneItem(id = id, dateDone = dateDone)
+        cancelWorkerNotification(context = context, workId = getWorkerId(id))
+    }
+
+    fun getWorkerId(id: Int): UUID {
+        val sql = "SELECT workRequestNotificationID FROM tb_activities WHERE id = $id"
+        val query = SimpleSQLiteQuery(sql)
+        return activityDao.getWorkerId(query)
     }
 }

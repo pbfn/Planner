@@ -8,6 +8,7 @@ import androidx.room.RawQuery
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.pedrobruno.planner.data.database.model.Activity
 import kotlinx.coroutines.flow.Flow
+import java.util.UUID
 
 @Dao
 interface ActivityDao {
@@ -21,4 +22,6 @@ interface ActivityDao {
     @Query("UPDATE tb_activities SET isDone = 1, dateDone = :dateDone WHERE id = :id")
     fun doneItem(id: Int, dateDone: Long)
 
+    @RawQuery
+    fun getWorkerId(query: SupportSQLiteQuery): UUID
 }
