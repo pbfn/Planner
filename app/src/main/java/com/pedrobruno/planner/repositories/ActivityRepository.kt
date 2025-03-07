@@ -1,5 +1,6 @@
 package com.pedrobruno.planner.repositories
 
+import android.content.Context
 import android.util.Log
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.pedrobruno.planner.data.database.dao.ActivityDao
@@ -8,6 +9,8 @@ import com.pedrobruno.planner.data.model.ActivityItem
 import com.pedrobruno.planner.util.converters.data.formatarData
 import com.pedrobruno.planner.util.converters.data.formatarHora
 import com.pedrobruno.planner.util.converters.data.gerarDate
+import com.pedrobruno.planner.workmanager.scheduleNotificationActivity
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.Date
@@ -16,7 +19,8 @@ import javax.inject.Singleton
 
 @Singleton
 class ActivityRepository @Inject constructor(
-    private val activityDao: ActivityDao
+    private val activityDao: ActivityDao,
+    @ApplicationContext private val context: Context,
 ) {
 
     private val TAG = "ActivityRepository"
@@ -25,6 +29,11 @@ class ActivityRepository @Inject constructor(
         try {
             val date = gerarDate(activityItem.data, activityItem.hour)
             if (date != null) {
+                scheduleNotificationActivity(
+                    activity = activityItem.description,
+                    date = date,
+                    context = context
+                )
                 val activity = Activity(
                     description = activityItem.description,
                     isDone = activityItem.isDone,
