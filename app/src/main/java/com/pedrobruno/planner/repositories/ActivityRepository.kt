@@ -5,11 +5,11 @@ import androidx.sqlite.db.SimpleSQLiteQuery
 import com.pedrobruno.planner.data.database.dao.ActivityDao
 import com.pedrobruno.planner.data.database.model.Activity
 import com.pedrobruno.planner.data.model.ActivityItem
+import com.pedrobruno.planner.util.converters.data.formatarData
+import com.pedrobruno.planner.util.converters.data.formatarHora
+import com.pedrobruno.planner.util.converters.data.gerarDate
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -48,6 +48,7 @@ class ActivityRepository @Inject constructor(
         return activityDao.getActivities(query).map { lista ->
             lista.map { activity ->
                 ActivityItem(
+                    id = activity.id,
                     description = activity.description,
                     isDone = activity.isDone,
                     data = formatarData(activity.date),
@@ -56,22 +57,4 @@ class ActivityRepository @Inject constructor(
             }
         }
     }
-
-
-    private fun gerarDate(data: String, hora: String): Date? {
-        val formato = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-        return formato.parse("$data $hora")
-    }
-
-    private fun formatarData(data: Date): String {
-        val formato = SimpleDateFormat("EEE, dd", Locale("pt", "BR"))
-        return formato.format(data)
-    }
-
-    private fun formatarHora(data: Date): String {
-        val formato = SimpleDateFormat("HH:mm", Locale("pt", "BR"))
-        return formato.format(data)
-    }
-
-
 }
